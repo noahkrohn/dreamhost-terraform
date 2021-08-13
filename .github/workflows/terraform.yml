@@ -8,7 +8,7 @@ on:
 
 jobs:
   init:
-    name: 'Terraform Init'
+    name: Initialize
     runs-on: ubuntu-latest
     environment: PROD
 
@@ -36,7 +36,7 @@ jobs:
           -backend-config="endpoint=${{ secrets.ENDPOINT }}"
 
   plan:
-    name: 'Terraform Plan'
+    name: Plan
     runs-on: ubuntu-latest
     environment: PROD
     needs: init
@@ -45,6 +45,7 @@ jobs:
       run:
         shell: bash
 
+    steps:
     - name: Run Terraform Plan
       run: |
           terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
@@ -58,7 +59,7 @@ jobs:
           -out tfplan
 
   apply:
-    name: 'Terraform Apply'
+    name: Apply
     runs-on: ubuntu-latest
     environment: PROD
     needs: [init, plan]
@@ -66,7 +67,8 @@ jobs:
     defaults:
       run:
         shell: bash
-
+        
+    steps:
     - name: Run Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
