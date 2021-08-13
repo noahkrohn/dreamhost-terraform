@@ -46,13 +46,6 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-#        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-#          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          export AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }}
-#          terraform init -backend-config="bucket=${{ secrets.BUCKET }}" \
-#          -backend-config="key=${{ secrets.KEY }}" \
-#          -backend-config="region=${{ secrets.REGION }}" \
-#          -backend-config="endpoint=${{ secrets.ENDPOINT }}"
           terraform apply \
           -var "user_name=${{ secrets.USER_NAME }}" \
           -var "password=${{ secrets.PASSWORD }}" \
