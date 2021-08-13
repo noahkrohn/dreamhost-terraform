@@ -5,8 +5,10 @@ There didn't seem to be a huge amount of information out there on how to leverag
 * provider registry.terraform.io/hashicorp/aws v3.54.0
 * provider registry.terraform.io/terraform-provider-openstack/openstack v1.43.0
 
+I'll offer two different ways to perform this. First I'll run you through doing this all from your own local system using the Terraform CLI. Second I'll show you how to do the same thing using GitHub actions. I'm partial to leveraging GitHub actions but it's totally up to you which you prefer. 
+
 ## Assumptions
-Tech moves, shifts, and changes so I just wanted to note that this code repo represents a snapshot in time. It's possible pieces won't work in future versions of Terraform or with future versions of the openstack or aws modules.
+Tech moves, shifts, and changes so I just wanted to note that this code repo represents a snapshot in time. It's possible pieces won't work in future versions of Terraform or with future versions of the openstack or aws modules. I tried to keep this as approachable as possible but you'll need some Linux knowhow to get going here. If you get stuck just shoot me a message and I'll do what I can to help you out. 
 
 ## Prerequisites
 You'll obviously need a Dreamhost account for this. You'll also need a place to store your Terraform state. I'd recommend using a DreamObject for that just so you can keep everything in one place. It's interesting to note that while the DreamCompute setup leverages Openstack, DreamObject is Dreamhost's S3 implementation and thus needs to use that for the backend. To do that, sign-in to your account, click Cloud Services, then DreamObjects. Create a user and then an associated DreamObject. For instance I have my user created and a bucket called terraform. Click the user and copy both the access key and the secret key, you'll need them for access. 

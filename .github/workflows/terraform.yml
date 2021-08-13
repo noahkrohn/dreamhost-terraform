@@ -1,0 +1,52 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    environment: PROD
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Terraform Initialize
+      run: |
+        terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+          -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+          -backend-config="bucket=${{ secrets.BUCKET }}" \
+          -backend-config="key=${{ secrets.KEY }}" \
+          -backend-config="region=${{ secrets.REGION }}" \
+          -backend-config="endpoint=${{ secrets.ENDPOINT }}"
+
+    - name: Terraform Plan
+      run: |
+        terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
+          -var "password=${{ secrets.PASSWORD }}" \
+          -var "tenant_name=${{ secrets.TENANT_NAME }}" \
+          -var "tenant_id=${{ secrets.TENANT_ID }}" \
+          -var "auth_url=${{ secrets.AUTH_URL }}" \
+          -var "public_key=${{ secrets.PUBLIC_KEY }}" \
+          -var "remote_ip_prefix=${{ secrets.REMOTE_IP_PREFIX }}" \
+          -var "region=${{ secrets.REGION }}" \
+          -out tfplan
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+          terraform apply tfplan
