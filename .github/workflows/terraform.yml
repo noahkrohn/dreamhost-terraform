@@ -27,9 +27,8 @@ jobs:
 
     - name: Terraform Initialize
       run: |
-        terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }} \
+        terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
           -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-          -backend-config="region=${{ secrets.REGION }}" \
           -backend-config="bucket=${{ secrets.BUCKET }}" \
           -backend-config="key=${{ secrets.KEY }}" \
           -backend-config="region=${{ secrets.REGION }}" \
