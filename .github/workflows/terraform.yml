@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  init:
-    name: Initialize
+  terraform:
+    name: Terraform
     runs-on: ubuntu-latest
     environment: PROD
 
@@ -35,20 +35,9 @@ jobs:
           -backend-config="region=${{ secrets.REGION }}" \
           -backend-config="endpoint=${{ secrets.ENDPOINT }}"
 
-  plan:
-    name: Plan
-    runs-on: ubuntu-latest
-    environment: PROD
-    needs: init
-
-    defaults:
-      run:
-        shell: bash
-
-    steps:
-    - name: Run Terraform Plan
+    - name: Terraform Plan
       run: |
-          terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
+        terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
           -var "password=${{ secrets.PASSWORD }}" \
           -var "tenant_name=${{ secrets.TENANT_NAME }}" \
           -var "tenant_id=${{ secrets.TENANT_ID }}" \
@@ -58,18 +47,7 @@ jobs:
           -var "region=${{ secrets.REGION }}"
           -out tfplan
 
-  apply:
-    name: Apply
-    runs-on: ubuntu-latest
-    environment: PROD
-    needs: [init, plan]
-
-    defaults:
-      run:
-        shell: bash
-        
-    steps:
-    - name: Run Terraform Apply
+    - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
           terraform apply tfplan
