@@ -1,3 +1,4 @@
+[![tfsec](https://github.com/noahkrohn/dreamhost-terraform/actions/workflows/tfsec-analysis.yml/badge.svg)](https://github.com/noahkrohn/dreamhost-terraform/actions/workflows/tfsec-analysis.yml)
 # Introduction
 There didn't seem to be a huge amount of information out there on how to leverage Terraform to manage infrastructure on Dreamhost so I decided to pull this together, hopefully it'll help other folks as well. I'm leveraging the following to accomplish this:
 
