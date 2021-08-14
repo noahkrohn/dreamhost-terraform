@@ -1,14 +1,14 @@
-#!/bin/bash
-sudo snap install core; sudo snap refresh core
-sudo snap install --classic certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ABF5BD827BD9BF62
-sudo cat << EOF > /etc/apt/sources.list.d/nginx.list
+#!/bin/sh
+snap install core; snap refresh core
+snap install --classic certbot
+ln -s /snap/bin/certbot /usr/bin/certbot
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ABF5BD827BD9BF62
+cat << EOF > /etc/apt/sources.list.d/nginx.list
 deb https://nginx.org/packages/ubuntu/ focal nginx
 deb-src https://nginx.org/packages/ubuntu/ focal nginx
 EOF
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get dist-upgrade -y
-sudo apt-get install nginx -y
-sudo reboot
+apt-get update
+apt-get upgrade -y
+apt-get dist-upgrade -y
+apt-get install nginx -y
+reboot
