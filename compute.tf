@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "webserver" {
   security_groups = ["default"]
   flavor_name     = "gp1.lightspeed"
   image_name      = "Ubuntu-20.04"
-  user_data       = filebase64("${path.module}/setup.sh")
+  user_data       = "${path.module}/setup.yaml"
   network {
     name = "public"
   }
