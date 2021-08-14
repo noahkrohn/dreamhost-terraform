@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "webserver" {
   security_groups = ["default"]
   flavor_name     = "gp1.subsonic"
   image_name      = "Ubuntu-20.04"
-
+  user_data       = "${path.module}/setup.sh"
   network {
     name = "public"
   }
