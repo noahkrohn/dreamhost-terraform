@@ -103,3 +103,6 @@ Set the values to be the same ones you used in the CLI example
 
 ### Action
 GitHub will handily detect the actions already in the repo so you should have two there already - Terraform and tfsec. Both of these will run automatically when you push code to main. The Terraform action will create/modify/destroy your infrastructure as needed and the tfsec action will scan the repo for security issues. 
+
+# Configuring the Web Server
+TBD - need to create Ansible roles/playbooks
