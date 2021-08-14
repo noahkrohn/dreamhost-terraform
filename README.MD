@@ -74,3 +74,32 @@ Once you run the plan it'll spew everything to screen and will also output your 
 
 ### Terraform Apply
 Now that you have a plan, all you need to do is run "terraform apply tfplan." You don't have to output your plan to a file but there's a method to that madness. If you're gearing up to or are currently working with CI/CD pipelines and are looking to adopt an immutable infrastructure stance, creating artifacts should be an absolute requirement. Outputting your plan also tells you exactly what will be performed and allows you to review that plan at a later date. You'll notice though that the gitignore for this repo doesn't allow for storage of the tfplan which is also intentional. Your tfplan contains sensitive data and shouldn't be stored in source control which will generally (hopefully) have looser role-based access than your artifact storage. When dealing with output plans - keep them secret, keep them safe. 
+
+## Using GitHub Actions
+Math teachers always teach the hard way first and I see no reason to break with that grand tradition. OK that's not entirely true. There are more moving parts in using GitHub actions, requires a little more knowledge than the CLI, and takes a little longer to get setup. However, it is also substantially more automated and maintainable. 
+
+### Fork the Repo
+You'll want to start with forking a copy of my repository so you can setup your own actions. Please note, at this time if you're on a free plan then you'll need your repository to be public in order to use GitHub actions so you'll need to keep yours public as well. 
+
+### Create Your Secrets
+Once you're in your own forked repository, go to Settings -> Environments and create a new environment. I called mine PROD as I'm partial to using the standard separation of development, staging, and production even if I'm working on small things like this. Add yourself as a required reviewer and then add the following secrets:
+```bash
+AUTH_URL
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+BUCKET
+ENDPOINT
+KEY
+PASSWORD
+PUBLIC_KEY
+REGION
+REMOTE_IP_PREFIX
+TENANT_ID
+TENANT_NAME
+TF_API_TOKEN
+USER_NAME
+```
+Set the values to be the same ones you used in the CLI example
+
+### Action
+GitHub will handily detect the actions already in the repo so you should have two there already - Terraform and tfsec. Both of these will run automatically when you push code to main. The Terraform action will create/modify/destroy your infrastructure as needed and the tfsec action will scan the repo for security issues. 
