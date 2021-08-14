@@ -2,9 +2,9 @@ resource "openstack_compute_instance_v2" "webserver" {
   name            = "webserver"
   key_pair        = openstack_compute_keypair_v2.keypair.id
   security_groups = ["default"]
-  flavor_name     = "gp1.subsonic"
+  flavor_name     = "gp1.lightspeed"
   image_name      = "Ubuntu-20.04"
-  user_data       = "${path.module}/setup.sh"
+  user_data       = filebase64("${path.module}/setup.sh")
   network {
     name = "public"
   }
