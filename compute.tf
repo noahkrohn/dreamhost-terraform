@@ -4,9 +4,12 @@ resource "openstack_compute_instance_v2" "webserver" {
   security_groups = ["default"]
   flavor_name     = "gp1.lightspeed"
   image_name      = "Ubuntu-20.04"
-  user_data       = "${path.module}/setup.sh"
+  user_data       = "${file("setup.sh")}"
   network {
     name = "public"
+  }
+  provisioner "local-exec" {
+    command = "echo ${self.access_ip_v4}"
   }
 }
 
