@@ -102,7 +102,7 @@ USER_NAME
 Set the values to be the same ones you used in the CLI example
 
 ### Action
-GitHub will handily detect the actions already in the repo so you should have two there already - Terraform and tfsec. Both of these will run automatically when you push code to main. The Terraform action will create/modify/destroy your infrastructure as needed and the tfsec action will scan the repo for security issues. 
+GitHub will handily detect the actions already in the repo so you should have two there already - Terraform and tfsec. The tfsec check will run automatically any time you push changes, however the terraform pipeline is set to be manual. When running the pipeline manually, you have the option to either create or destroy. To avoid being charged for the use of infrastructure that you're not actively using, I recommend running the destroy action once you're done as that will clean up behind you.
 
 # Configuring the Web Server
 TBD - need to create Ansible roles/playbooks
