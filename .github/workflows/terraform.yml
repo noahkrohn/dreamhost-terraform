@@ -23,6 +23,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: debug
+      run: | 
+        echo "choice is ${{ github.event.inputs.choice }}"
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
