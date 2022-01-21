@@ -38,7 +38,7 @@ jobs:
           -backend-config="endpoint=${{ secrets.ENDPOINT }}"
 
     - name: Terraform Plan Apply
-      if: ${{ github.event.inputs.choice }} == "create"
+      if: "${{ github.event.inputs.choice }} == create"
       run: |
         terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
           -var "password=${{ secrets.PASSWORD }}" \
@@ -51,7 +51,7 @@ jobs:
           -out tfplan
 
     - name: Terraform Plan Destroy
-      if: ${{ github.event.inputs.choice }} == "destroy"
+      if: "${{ github.event.inputs.choice }} == destroy"
       run: |
         terraform plan -destroy -var "user_name=${{ secrets.USER_NAME }}" \
           -var "password=${{ secrets.PASSWORD }}" \
@@ -64,12 +64,12 @@ jobs:
           -out tfplan
 
     - name: Terraform Apply
-      if: ${{ github.event.inputs.choice }} == "create"
+      if: "${{ github.event.inputs.choice }} == create"
       run: |
           chmod +x ./setup.sh
           terraform apply tfplan
 
     - name: Terraform Destroy
-      if: ${{ github.event.inputs.choice }} == "destroy"
+      if: "${{ github.event.inputs.choice }} == destroy"
       run: |
           terraform apply -destroy tfplan
