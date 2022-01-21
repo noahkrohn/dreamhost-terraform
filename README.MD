@@ -2,7 +2,7 @@
 # Introduction
 There didn't seem to be a huge amount of information out there on how to leverage Terraform to manage infrastructure on Dreamhost so I decided to pull this together, hopefully it'll help other folks as well. I'm leveraging the following to accomplish this:
 
-* Terraform v1.0.4
+* Terraform v1.1.4
 * provider registry.terraform.io/hashicorp/aws v3.54.0
 * provider registry.terraform.io/terraform-provider-openstack/openstack v1.43.0
 
