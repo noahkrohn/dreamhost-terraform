@@ -1,11 +1,14 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches:
-    - main
-  pull_request:
-
+  workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        description: Do you wish to create or destroy the infrastructure?
+        options:
+        - create
+        - destroy
 jobs:
   terraform:
     name: Terraform
@@ -34,7 +37,8 @@ jobs:
           -backend-config="region=${{ secrets.REGION }}" \
           -backend-config="endpoint=${{ secrets.ENDPOINT }}"
 
-    - name: Terraform Plan
+    - name: Terraform Plan Apply
+      if: ${{ github.event.inputs.choice }} == "create"
       run: |
         terraform plan -var "user_name=${{ secrets.USER_NAME }}" \
           -var "password=${{ secrets.PASSWORD }}" \
@@ -46,8 +50,26 @@ jobs:
           -var "region=${{ secrets.REGION }}" \
           -out tfplan
 
+    - name: Terraform Plan Destroy
+      if: ${{ github.event.inputs.choice }} == "destroy"
+      run: |
+        terraform plan -destroy -var "user_name=${{ secrets.USER_NAME }}" \
+          -var "password=${{ secrets.PASSWORD }}" \
+          -var "tenant_name=${{ secrets.TENANT_NAME }}" \
+          -var "tenant_id=${{ secrets.TENANT_ID }}" \
+          -var "auth_url=${{ secrets.AUTH_URL }}" \
+          -var "public_key=${{ secrets.PUBLIC_KEY }}" \
+          -var "remote_ip_prefix=${{ secrets.REMOTE_IP_PREFIX }}" \
+          -var "region=${{ secrets.REGION }}" \
+          -out tfplan
+
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: ${{ github.event.inputs.choice }} == "create"
       run: |
           chmod +x ./setup.sh
           terraform apply tfplan
+
+    - name: Terraform Destroy
+      if: ${{ github.event.inputs.choice }} == "destroy"
+      run: |
+          terraform apply -destroy tfplan
